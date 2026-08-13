@@ -1,0 +1,14 @@
+<?php
+$produto = [
+    "nome" => " Notebook",
+    "preco" => 3500.00 ,
+    "estoque" => 15
+    ];
+    
+    $preco_formatado = number_format($produto['preco'], 2, '.',  '');
+    echo "O produto {$produto['nome']} custa R$ {$preco_formatado} e possui {$produto['estoque']} unidades. \n";
+    
+    $produto["preco"] *= 0.90;
+    $produto["marca"] = "TechCorp";
+    
+   echo "  Novo preço: R$ {$produto['preco']} | Marca: {$produto['marca']}\n";

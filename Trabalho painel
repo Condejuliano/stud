@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro B2B | Kraft Papéis S.A.</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+        <!-- Cabeçalho do Card -->
+        <header class="card-header">
+            <div class="brand">
+                <span class="brand-tag">PORTAL CORPORATIVO</span>
+                <h1>Kraft Papéis <small>S.A.</small></h1>
+            </div>
+            
+            <!-- Indicador visual de etapas -->
+            <div class="stepper" aria-label="Etapas do cadastro">
+                <span class="step active">1. Dados Institucionais</span>
+                <span class="step-divider"></span>
+                <span class="step">2. Perfil Comercial</span>
+            </div>
+        </header>
+
+        <!-- Formulário Semântico -->
+        <form id="cadastroForm" novalidate>
+            
+            <!-- Bloco 1: Dados da Empresa -->
+            <fieldset>
+                <legend>Dados Institucionais</legend>
+
+                <div class="form-group">
+                    <label for="razaoSocial">Razão Social *</label>
+                    <input type="text" id="razaoSocial" name="razaoSocial" placeholder="Ex: Indústria Gráfica Silva Ltda" required>
+                    <span class="error-msg" id="erroRazao"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cnpj">CNPJ *</label>
+                        <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" maxlength="18" required>
+                        <span class="error-msg" id="erroCnpj"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail Corporativo *</label>
+                        <input type="email" id="email" name="email" placeholder="compras@empresa.com.br" required>
+                        <span class="error-msg" id="erroEmail"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Bloco 2: Interesse de Compra / Parceria -->
+            <fieldset>
+                <legend>Perfil de Fornecimento</legend>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipoParceria">Modalidade *</label>
+                        <select id="tipoParceria" name="tipoParceria" required>
+                            <option value="">Selecione uma opção...</option>
+                            <option value="cliente-b2b">Cliente Corporativo (Consumo Próprio)</option>
+                            <option value="distribuidor">Parceiro de Distribuição / Revenda</option>
+                        </select>
+                        <span class="error-msg" id="erroModalidade"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipoPapel">Linha de Papel Pretendida *</label>
+                        <select id="tipoPapel" name="tipoPapel" required>
+                            <option value="">Selecione o material...</option>
+                            <option value="kraft-pardo">Papel Kraft Pardo (Bobinas)</option>
+                            <option value="kraft-branco">Papel Kraft Branco Monolúcido</option>
+                            <option value="papelao-ondulado">Chapas e Embalagens Sustentáveis</option>
+                            <option value="papelaria-corporativa">Artigos de Papelaria Institucional</option>
+                        </select>
+                        <span class="error-msg" id="erroPapel"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="observacoes">Volume Mensal Estimado / Observações</label>
+                    <textarea id="observacoes" name="observacoes" rows="3" placeholder="Informe a gramatura ou volume aproximado em toneladas/kg (opcional)"></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Botões de Controle -->
+            <div class="form-actions">
+                <button type="reset" class="btn-secondary">Limpar Campos</button>
+                <button type="submit" class="btn-primary">Solicitar Credenciamento</button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Modal de Sucesso (Oculto por padrão) -->
+    <div id="modalSucesso" class="modal-overlay hidden" role="dialog" aria-modal="true">
+        <div class="modal-box">
+            <div class="modal-icon">✓</div>
+            <h2>Solicitação Registrada</h2>
+            <p>Os dados da empresa <strong id="modalEmpresaNome"></strong> foram enviados para a equipe comercial da <strong>Kraft Papéis S.A.</strong></p>
+            <p class="modal-sub">Enviamos um protocolo de confirmação para o e-mail cadastrado.</p>
+            <button type="button" id="btnFecharModal" class="btn-primary">Concluir</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+/* Variáveis da Paleta Monocromática */
+:root {
+    --cor-preto: #000000;
+    --cor-cinza-escuro: #333333;
+    --cor-cinza-claro: #F0F0F0;
+    --cor-branco: #FFFFFF;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    background-color: var(--cor-cinza-claro);
+    color: var(--cor-cinza-escuro);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    line-height: 1.5;
+}
+
+/* Card Principal */
+.container {
+    background-color: var(--cor-branco);
+    width: 100%;
+    max-width: 720px;
+    border: 2px solid var(--cor-preto);
+    box-shadow: 8px 8px 0px var(--cor-preto); /* Estética industrial geométrica */
+    padding: 40px;
+}
+
+/* Cabeçalho */
+.card-header {
+    border-bottom: 2px solid var(--cor-preto);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+}
+
+.brand-tag {
+    display: inline-block;
+    background-color: var(--cor-preto);
+    color: var(--cor-branco);
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    margin-bottom: 6px;
+}
+
+.card-header h1 {
+    font-size: 1.8rem;
+    color: var(--cor-preto);
+    letter-spacing: -0.5px;
+}
+
+.card-header h1 small {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--cor-cinza-escuro);
+}
+
+/* Indicador Visual de Etapas */
+.stepper {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.step {
+    color: var(--cor-cinza-escuro);
+}
+
+.step.active {
+    color: var(--cor-preto);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.step-divider {
+    flex: 1;
+    height: 1px;
+    background-color: var(--cor-cinza-escuro);
+    margin: 0 12px;
+    opacity: 0.3;
+}
+
+/* Fieldsets e Legends */
+fieldset {
+    border: 1px solid var(--cor-cinza-escuro);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: var(--cor-preto);
+    padding: 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Grid de Campos */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--cor-preto);
+    margin-bottom: 6px;
+}
+
+/* Inputs, Selects e Textarea */
+input, select, textarea {
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    border: 1px solid var(--cor-cinza-escuro);
+    background-color: var(--cor-branco);
+    color: var(--cor-preto);
+    transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border: 2px solid var(--cor-preto);
+    background-color: var(--cor-cinza-claro);
+}
+
+/* Mensagens de Erro */
+.error-msg {
+    font-size: 0.78rem;
+    font-weight: bold;
+    color: var(--cor-preto);
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+input.input-error, select.input-error {
+    border: 2px solid var(--cor-preto);
+    background-color: var(--cor-cinza-claro);
+}
+
+/* Botões */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+button {
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 12px 24px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--cor-preto);
+    color: var(--cor-branco);
+    border: 2px solid var(--cor-preto);
+}
+
+.btn-primary:hover {
+    background-color: var(--cor-cinza-escuro);
+    border-color: var(--cor-cinza-escuro);
+}
+
+.btn-secondary {
+    background-color: var(--cor-branco);
+    color: var(--cor-preto);
+    border: 2px solid var(--cor-preto);
+}
+
+.btn-secondary:hover {
+    background-color: var(--cor-cinza-claro);
+}
+
+/* Modal de Sucesso */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-box {
+    background-color: var(--cor-branco);
+    border: 2px solid var(--cor-preto);
+    padding: 32px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--cor-preto);
+    color: var(--cor-branco);
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 16px;
+}
+
+.modal-box h2 {
+    color: var(--cor-preto);
+    margin-bottom: 12px;
+}
+
+.modal-box p {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+.modal-sub {
+    font-size: 0.85rem !important;
+    color: var(--cor-cinza-escuro);
+    margin-bottom: 24px !important;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 600px) {
+    .container {
+        padding: 24px 20px;
+        box-shadow: 4px 4px 0px var(--cor-preto);
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    button {
+        width: 100%;
+    }
+}document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('cadastroForm');
+    const cnpjInput = document.getElementById('cnpj');
+    const modal = document.getElementById('modalSucesso');
+    const btnFecharModal = document.getElementById('btnFecharModal');
+
+    // 1. Máscara automática para CNPJ (00.000.000/0000-00)
+    cnpjInput.addEventListener('input', (e) => {
+        let valor = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+        
+        if (valor.length > 14) valor = valor.slice(0, 14);
+
+        valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
+        valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+        valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
+        valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+
+        e.target.value = valor;
+    });
+
+    // 2. Validação em tempo real ao sair do campo (blur)
+    const camposObrigatorios = ['razaoSocial', 'cnpj', 'email', 'tipoParceria', 'tipoPapel'];
+    camposObrigatorios.forEach(id => {
+        const elemento = document.getElementById(id);
+        elemento.addEventListener('blur', () => validarCampo(id));
+    });
+
+    // 3. Interceptação do envio do formulário
+    form.addEventListener('submit', (event) => {
+        event.preventDefault(); // Impede o recarregamento da página
+
+        let formularioValido = true;
+
+        camposObrigatorios.forEach(id => {
+            if (!validarCampo(id)) {
+                formularioValido = false;
+            }
+        });
+
+        if (formularioValido) {
+            const razaoSocial = document.getElementById('razaoSocial').value.trim();
+            document.getElementById('modalEmpresaNome').textContent = razaoSocial;
+            modal.classList.remove('hidden');
+        }
+    });
+
+    // 4. Fechar modal e resetar formulário
+    btnFecharModal.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        form.reset();
+        limparErros();
+    });
+
+    form.addEventListener('reset', () => {
+        setTimeout(limparErros, 10);
+    });
+
+    // Função de validação individual
+    function validarCampo(id) {
+        const campo = document.getElementById(id);
+        const valor = campo.value.trim();
+        let mensagemErro = '';
+
+        if (id === 'razaoSocial') {
+            if (valor.length < 3) {
+                mensagemErro = 'Informe a Razão Social completa da empresa.';
+            }
+            definirErro(campo, 'erroRazao', mensagemErro);
+        }
+
+        if (id === 'cnpj') {
+            const regexCnpj = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+            if (!regexCnpj.test(valor)) {
+                mensagemErro = 'Digite um CNPJ válido no formato 00.000.000/0000-00.';
+            }
+            definirErro(campo, 'erroCnpj', mensagemErro);
+        }
+
+        if (id === 'email') {
+            const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regexEmail.test(valor)) {
+                mensagemErro = 'Informe um e-mail corporativo válido.';
+            }
+            definirErro(campo, 'erroEmail', mensagemErro);
+        }
+
+        if (id === 'tipoParceria') {
+            if (valor === '') {
+                mensagemErro = 'Selecione uma modalidade de parceria.';
+            }
+            definirErro(campo, 'erroModalidade', mensagemErro);
+        }
+
+        if (id === 'tipoPapel') {
+            if (valor === '') {
+                mensagemErro = 'Selecione o tipo de papel pretendido.';
+            }
+            definirErro(campo, 'erroPapel', mensagemErro);
+        }
+
+        return mensagemErro === '';
+    }
+
+    function definirErro(campo, idSpanErro, mensagem) {
+        const span = document.getElementById(idSpanErro);
+        span.textContent = mensagem;
+        
+        if (mensagem) {
+            campo.classList.add('input-error');
+        } else {
+            campo.classList.remove('input-error');
+        }
+    }
+
+    function limparErros() {
+        document.querySelectorAll('.error-msg').forEach(span => span.textContent = '');
+        document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+    }
+});
+
